@@ -1,0 +1,17 @@
+name: eps168
+dependencies:
+ - python=2
+ - flask
+ - h5py
+ - jupyter
+ - matplotlib
+ - requests
+ - hdf4
+ - netCDF4
+ - nose
+ - pandas
+ - psycopg2
+ - shapely
+ - boto3
+ - s3fs
+ -pywtk
