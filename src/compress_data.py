@@ -2,7 +2,7 @@
 
 # Goal of this script is to resample the downloaded csvs by taking the max hourly windspeed 
 #and then averaging across the 3 stations per county. This should result in ~50x factor of 
-# compression and will be more manageable 
+# compression and will be more manageable for handling in regressions
 
 # packages
 import matplotlib.pyplot as plt
@@ -40,7 +40,6 @@ def process_raw(path):
 for ind in tqdm(range(len(paths))): #len(paths)
     try:
         processed = process_raw(paths[ind])
-        #print(processed.head())
         year, month, day, hour = [elt[0] for elt in processed.index],[elt[1] for elt in processed.index], \
                             [elt[2] for elt in processed.index], [elt[3] for elt in processed.index]
         wind_10, wind_40, wind_100, temp_10 = [elt[0] for elt in processed.values], [elt[1] for elt in processed.values],\
@@ -48,8 +47,6 @@ for ind in tqdm(range(len(paths))): #len(paths)
         cleaned = pd.DataFrame({"Year":year, "Month":month, "Day":day, "Hour": hour, 'wind_10ms':wind_10, \
                   'wind_40ms':wind_40, 'wind_100ms':wind_100,'temp_10':temp_10})
         new_loc = os.path.join(rootdir, "processed/{}/{}".format(state,files[ind]))
-#         if os.path.isdir(new_loc) == False:
-#             os.mkdir(os.path.dirname(new_loc))
         cleaned.to_csv(new_loc)
     except:
         print("{} could not be loaded".format(files[ind]))
